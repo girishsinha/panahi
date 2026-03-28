@@ -4,14 +4,15 @@ import { Types } from "mongoose";
 
 export interface SoldItem {
   productId: Types.ObjectId;
+  name: string;
   size: number;
   quantity: number;
   costPrice: number;
-  priceAtSale: number;
+  finalPrice: number;
 }
 
 export interface Sale {
-  items: SoldItem[];
+  soldItems: SoldItem[];
   totalAmount: number;
   paymentMethod: "cash" | "card" | "upi" | "wallet";
   customerName?: string;
@@ -30,20 +31,15 @@ const soldItemSchema = new Schema({
 
 const saleSchema = new Schema(
   {
-    items: { type: [soldItemSchema], required: true },
-    totalAmount: { type: Number, required: true },
+    soldItems: { type: [soldItemSchema], required: true },
     paymentMethod: {
       type: String,
-      enum: ["cash", "card", "upi", "wallet"],
+      enum: ["cash", "upi"],
       required: true,
     },
+    totalAmount: { type: Number, required: true },
     customerName: { type: String },
     discount: { type: Number, default: 0 },
-    status: {
-      type: String,
-      enum: ["completed", "cancelled", "refunded"],
-      default: "completed",
-    },
   },
   { timestamps: { createdAt: true, updatedAt: false } }
 );

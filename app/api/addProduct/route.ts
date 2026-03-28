@@ -53,7 +53,7 @@ export async function POST(req: Request) {
       mrp: Number(formData.get("mrp")) as number,
       salePrice: Number(formData.get("salePrice")) as number,
       stockBySize: JSON.parse(
-        formData.get("stockBySize") as string
+        formData.get("stockBySize") as string,
       ) as StockBySize[],
       imageUrl: uploadResult.url,
       description: formData.get("description") as string,
@@ -64,7 +64,7 @@ export async function POST(req: Request) {
     if (!addedProduct) {
       return Response.json(
         { error: "Product creation failed" },
-        { status: 500 }
+        { status: 500 },
       );
     }
     console.log(addedProduct);
@@ -74,13 +74,13 @@ export async function POST(req: Request) {
         addedProduct,
         message: "Product added successfully.",
       },
-      { status: 201 }
+      { status: 201 },
     );
   } catch (err) {
     console.log(err);
     return Response.json(
       { error: "Invalid JSON or server error", details: String(err) },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

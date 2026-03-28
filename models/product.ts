@@ -5,12 +5,8 @@ export interface StockBySize {
   quantity: number;
 }
 
-const stockBySizeSchema = new Schema({
-  size: { type: Number, required: true },
-  quantity: { type: Number, required: true },
-});
-
 export interface Product extends Document {
+  _id: mongoose.Types.ObjectId;
   name: string;
   art: string;
   brand: string;
@@ -27,6 +23,10 @@ export interface Product extends Document {
   createdAt: Date;
   updatedAt: Date;
 }
+const stockBySizeSchema = new Schema({
+  size: { type: Number, required: true },
+  quantity: { type: Number, required: true },
+});
 
 //product schema
 const ProductSchema: Schema = new Schema(
@@ -45,7 +45,7 @@ const ProductSchema: Schema = new Schema(
     imageUrl: { type: String, required: true },
     description: { type: String, required: true },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 const ProductModel =
   (mongoose.models.Product as mongoose.Model<Product>) ||
