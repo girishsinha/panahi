@@ -407,6 +407,7 @@ export default function EditorialShowcase() {
                 once: false,
               });
 
+              console.log(isInView);
               return (
                 <motion.div
                   ref={ref}
@@ -414,7 +415,7 @@ export default function EditorialShowcase() {
                   className={`group border rounded-[35px] overflow-hidden transition-all duration-700
                   ${
                     isInView
-                      ? "bg-[#1a1a1a] text-white border-white/10"
+                      ? "bg-[#3b3b3b] text-white border-white/10"
                       : "bg-[#0a0a0a] text-white border-white/10"
                   }`}
                 >
@@ -433,7 +434,7 @@ export default function EditorialShowcase() {
                   <div className="px-8 pb-10 transition duration-500">
                     <p
                       className={`font-bold text-sm tracking-[0.3em] mb-5 transition-all duration-500 ${
-                        isInView ? "text-white" : "text-zinc-300"
+                        isInView ? "text-amber-300" : "text-zinc-300"
                       }`}
                     >
                       {item.number}
@@ -449,7 +450,7 @@ export default function EditorialShowcase() {
 
                     <div
                       className={`w-14 h-[3px] mt-6 mb-6 transition-all duration-500 ${
-                        isInView ? "bg-white" : "bg-zinc-500"
+                        isInView ? "bg-amber-300" : "bg-zinc-500"
                       }`}
                     ></div>
 
