@@ -10,7 +10,7 @@ export async function GET(req: Request) {
     if (category === "all") {
       products = await ProductModel.find({});
     } else {
-      console.log(category);
+      // console.log(category);
       // products = await ProductModel.find({ category });
     }
     return Response.json(

@@ -6,14 +6,23 @@ import { useRouter } from "next/navigation";
 export default function AdminSidenav() {
   const router = useRouter();
 
-  function handleLogout() {
+  async function handleLogout() {
     // Implement logout logic or redirect here
-    router.push("/login");
+
+    const res = await fetch("/api/admin/login", {
+      method: "GET",
+    });
+
+    if (res.ok) {
+      router.push("/"); // redirect to admin dashboard
+    } else {
+      alert("Logout failed");
+    }
   }
 
   return (
-    <aside className="min-h-screen border-r z-50 px-4 py-6">
-      <nav className="space-y-3">
+    <aside className="w-xs min-h-screen border-r  px-4 py-6">
+      <nav className="">
         <Link
           href="/admin"
           className="block rounded-md px-3 py-2 text-sm font-medium transition hover:bg-muted"

@@ -29,7 +29,7 @@ export async function POST(req: Request) {
     await dbConnect();
 
     const formData = await req.formData();
-    console.log(formData.get("name"));
+    // console.log(formData.get("name"));
     const image = formData.get("image");
 
     if (!image) {
@@ -67,7 +67,7 @@ export async function POST(req: Request) {
         { status: 500 },
       );
     }
-    console.log(addedProduct);
+    // console.log(addedProduct);
     return Response.json(
       {
         success: true,
