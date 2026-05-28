@@ -7,7 +7,7 @@ export default function Footer() {
           {/* LEFT */}
           <div>
             <p className="uppercase tracking-[0.4em] text-xs text-zinc-500">
-              VELTRIX® FOOTWEAR
+              PANAHI.com® FOOTWEAR
             </p>
 
             <h2 className="text-5xl md:text-7xl font-black leading-[0.9] tracking-[-0.06em] mt-8">

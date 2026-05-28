@@ -1,4 +1,5 @@
 "use client";
+import { motion } from "motion/react";
 
 const collections = [
   {
@@ -56,11 +57,17 @@ export default function FeaturedCollections() {
 
       {/* AUTO MOVING STRIP */}
       <div className="relative">
-        <div className="flex gap-8 animate-marquee w-max">
+        <motion.div
+          initial={{ x: "-50%" }}
+          animate={{ x: "0%" }}
+          whileHover={{ x: "-30%" }}
+          transition={{ repeat: Infinity, duration: 12, ease: "linear" }}
+          className="flex gap-8  w-max"
+        >
           {infiniteCollections.map((item, index) => (
             <div
               key={index}
-              className="group relative overflow-hidden rounded-[35px] flex-shrink-0 w-[320px]"
+              className="group relative overflow-hidden rounded-[35px] shrink-0 w-[320px]"
             >
               {/* IMAGE */}
               <img
@@ -84,7 +91,7 @@ export default function FeaturedCollections() {
               </div>
             </div>
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   );

@@ -9,6 +9,8 @@ export interface Product extends Document {
   _id: mongoose.Types.ObjectId;
   name: string;
   art: string;
+  type: string;
+  gender: "male" | "female";
   brand: string;
   category: string;
   color: string;
@@ -33,9 +35,11 @@ const ProductSchema: Schema = new Schema(
   {
     name: { type: String, required: true },
     art: { type: String, required: true },
+    type: { type: String, required: true },
+    gender: { type: String, required: false },
     brand: { type: String, required: true },
     category: { type: String, required: true },
-    color: { type: String, required: true },
+    color: { type: String, required: false },
     costPrice: { type: Number, required: true },
     mrp: { type: Number, required: true },
     salePrice: { type: Number, required: true },
