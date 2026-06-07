@@ -19,7 +19,7 @@ export default function WomenCollectionPage() {
           <div className="flex items-start sm:items-end mb-4 sm:mb-10">
             <div>
               <p className="uppercase tracking-[0.4em] text-xs text-zinc-500">
-                Men&#8217;s Collection
+                Women&#8217;s Collection
               </p>
 
               <h2 className="text-5xl md:text-7xl font-black leading-[0.9] tracking-[-0.06em] mt-6">
@@ -67,7 +67,7 @@ export default function WomenCollectionPage() {
           </ToggleGroup>
         </div>
         <GridDisplay
-          gender="male"
+          gender="female"
           category={filters.category}
           type={filters.type}
         />

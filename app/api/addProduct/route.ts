@@ -13,6 +13,8 @@ export interface ProductInput {
   art: string;
   brand: string;
   category: string;
+  type: string;
+  gender: "male" | "female" | "unisex";
   color: string;
   costPrice: number;
   mrp: number;
@@ -28,38 +30,87 @@ export async function POST(req: Request) {
   try {
     await dbConnect();
 
-    const formData = await req.formData();
-    // console.log(formData.get("name"));
-    const image = formData.get("image");
+    const contentType = req.headers.get("content-type") || "";
+    const isFormData = contentType.includes("multipart/form-data");
+    const formData = isFormData ? await req.formData() : null;
+    const body = !isFormData ? await req.json() : null;
 
-    if (!image) {
-      return Response.json({ error: "Image is required" }, { status: 400 });
-    }
-    const imagePath = await saveImage(image as File);
-
-    //uploade image to cloudinary
-    const uploadResult = await uploadOnCloudinary(imagePath);
-    if (!uploadResult) {
-      return Response.json({ error: "Image upload failed" }, { status: 500 });
-    }
-    // add new product
-    const newProductData: ProductInput = {
-      name: formData.get("name") as string,
-      art: formData.get("art") as string,
-      brand: formData.get("brand") as string,
-      category: formData.get("category") as string,
-      color: formData.get("color") as string,
-      costPrice: Number(formData.get("costPrice")) as number,
-      mrp: Number(formData.get("mrp")) as number,
-      salePrice: Number(formData.get("salePrice")) as number,
-      stockBySize: JSON.parse(
-        formData.get("stockBySize") as string,
-      ) as StockBySize[],
-      imageUrl: uploadResult.url,
-      description: formData.get("description") as string,
-      tags: (JSON.parse(formData.get("tags") as string) as string[]) || [],
+    const getValue = (key: string) => {
+      if (formData) return formData.get(key);
+      return body?.[key];
     };
-    // console.log(newProductData);
+
+    const getString = (key: string) => {
+      const value = getValue(key);
+      return typeof value === "string" ? value : "";
+    };
+
+    const getNumber = (key: string) => {
+      const value = getValue(key);
+      return typeof value === "string" || typeof value === "number"
+        ? Number(value)
+        : NaN;
+    };
+
+    const rawStock = getValue("stockBySize");
+    const stockBySize: StockBySize[] = rawStock
+      ? typeof rawStock === "string"
+        ? JSON.parse(rawStock)
+        : Array.isArray(rawStock)
+        ? rawStock
+        : []
+      : [];
+
+    let imageUrl = "";
+    if (formData) {
+      const image = formData.get("image");
+      if (!image) {
+        return Response.json({ error: "Image is required" }, { status: 400 });
+      }
+      const imagePath = await saveImage(image as File);
+      const uploadResult = await uploadOnCloudinary(imagePath);
+      if (!uploadResult) {
+        return Response.json({ error: "Image upload failed" }, { status: 500 });
+      }
+      imageUrl = uploadResult.url;
+    } else {
+      if (typeof body?.imageUrl === "string" && body.imageUrl.trim()) {
+        imageUrl = body.imageUrl;
+      } else {
+        return Response.json(
+          { error: "Image URL is required for JSON requests" },
+          { status: 400 },
+        );
+      }
+    }
+
+    const newProductData: ProductInput = {
+      name: getString("name"),
+      art: getString("art"),
+      brand: getString("brand"),
+      category: getString("category"),
+      type: getString("type"),
+      gender: getString("gender") as "male" | "female" | "unisex",
+      color: getString("color"),
+      costPrice: getNumber("costPrice"),
+      mrp: getNumber("mrp"),
+      salePrice: getNumber("salePrice"),
+      stockBySize,
+      imageUrl,
+      description: getString("description"),
+      tags: (() => {
+        const tagsValue = getValue("tags");
+        if (Array.isArray(tagsValue)) return tagsValue as string[];
+        if (typeof tagsValue === "string" && tagsValue.trim()) {
+          try {
+            return JSON.parse(tagsValue) as string[];
+          } catch {
+            return [];
+          }
+        }
+        return [];
+      })(),
+    };
     const addedProduct = await ProductModel.create(newProductData);
     if (!addedProduct) {
       return Response.json(
@@ -67,7 +118,6 @@ export async function POST(req: Request) {
         { status: 500 },
       );
     }
-    // console.log(addedProduct);
     return Response.json(
       {
         success: true,
@@ -79,7 +129,7 @@ export async function POST(req: Request) {
   } catch (err) {
     console.log(err);
     return Response.json(
-      { error: "Invalid JSON or server error", details: String(err) },
+      { error: "server error", details: String(err) },
       { status: 500 },
     );
   }

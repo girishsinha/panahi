@@ -37,7 +37,7 @@ export default function page() {
 
   return (
     <main className="flex min-h-screen bg-background w-full flex-col items-center justify-center  absolute">
-      <Card className="w-[400px] ">
+      <Card className="">
         <CardHeader>
           <CardTitle>Admin Login</CardTitle>
         </CardHeader>
@@ -57,7 +57,7 @@ export default function page() {
           </form>
         </CardContent>
         <CardFooter>
-          {error && <p style={{ color: "red" }}>{error}</p>}
+          {error && <p className="text-destructive">{error}</p>}
         </CardFooter>
       </Card>
     </main>

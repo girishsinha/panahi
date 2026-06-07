@@ -131,7 +131,7 @@ export default function Navbar() {
             <Link href="/">
               <h1 className="text-3xl font-black tracking-[0.3em] text-white">
                 {/* OM FOOTWEARS */}
-                PANAHI.com
+                PANAHI
               </h1>
             </Link>
 
@@ -231,7 +231,7 @@ export default function Navbar() {
           {/* TOP */}
           <div className="flex justify-between items-center px-6 h-24 border-b border-trasparent">
             <h1 className="text-3xl font-black tracking-[0.3em] text-white">
-              VELTRIX
+              PANAHI
             </h1>
 
             <button

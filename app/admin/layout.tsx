@@ -6,7 +6,7 @@ export default function AdminLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="flex flex-row">
+    <div className="flex sm:flex-row flex-col ">
       <AdminSidenav />
       {children}
     </div>

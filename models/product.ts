@@ -9,9 +9,9 @@ export interface Product extends Document {
   _id: mongoose.Types.ObjectId;
   name: string;
   art: string;
-  type: string;
-  gender: "male" | "female";
   brand: string;
+  type: string;
+  gender: "male" | "female" | "unisex";
   category: string;
   color: string;
   costPrice: number;
