@@ -4,7 +4,7 @@ import { ProductInput } from "@/app/api/addProduct/route";
 // Using OpenAI SDK pointed to Gemini endpoint
 const client = new OpenAI({
   apiKey: process.env.GEMINI_API_KEY,
-  // apiKey: "AQ.Ab8RN6KfyzEFWPoJDel9XnlHNHRjVOVO5qNsdVQ7E8lOdVNnuQ",
+
   baseURL: "https://generativelanguage.googleapis.com/v1beta/openai/",
 });
 
