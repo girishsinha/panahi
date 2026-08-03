@@ -1,4 +1,5 @@
 import { ragSearch } from "@/lib/aiLibrary/retrievalService";
+import { error } from "console";
 
 export async function POST(req: Request) {
   try {
@@ -9,10 +10,17 @@ export async function POST(req: Request) {
     }
     // console.log(query);
     const result = await ragSearch(query);
+    if (!result.success) {
+      console.log("from error", result);
+      throw new Error(JSON.stringify(result.answer));
+    }
 
     return Response.json(result, { status: 200 });
   } catch (err) {
     console.error(err);
-    return Response.json({ error: "Search failed" }, { status: 500 });
+    return Response.json(
+      { error: "Search failed", details: String(err) },
+      { status: 500 },
+    );
   }
 }

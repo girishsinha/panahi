@@ -42,6 +42,7 @@ Rules:
 
     const clean = text.replace(/```json|```/g, "").trim();
     return JSON.parse(clean);
+    // return {};
   } catch {
     return {}; // if parsing fails return no filters
   }
@@ -62,7 +63,7 @@ async function embedQuery(userQuery: string) {
 // ─────────────────────────────────────────
 // Step 3 — Vector search with filters
 // ─────────────────────────────────────────
-async function vectorSearch(queryVector: number[], filters: any) {
+async function vectorSearch(queryVector: number[]) {
   const { default: dbConnect } = await import("@/lib/dbConnect");
   const { default: ProductModel } = await import("@/models/product");
 
@@ -71,15 +72,15 @@ async function vectorSearch(queryVector: number[], filters: any) {
   // Build filter object for Atlas vector search
   const filterQuery: any = {};
 
-  if (filters.brand) filterQuery.brand = filters.brand.toLowerCase();
-  if (filters.gender) filterQuery.gender = filters.gender.toLowerCase();
-  if (filters.color) filterQuery.color = filters.color.toLowerCase();
-  if (filters.category) filterQuery.category = filters.category.toLowerCase();
-  if (filters.maxPrice || filters.minPrice) {
-    filterQuery.salePrice = {};
-    if (filters.minPrice) filterQuery.salePrice.$gte = filters.minPrice;
-    if (filters.maxPrice) filterQuery.salePrice.$lte = filters.maxPrice;
-  }
+  // if (filters.brand) filterQuery.brand = filters.brand.toLowerCase();
+  // if (filters.gender) filterQuery.gender = filters.gender.toLowerCase();
+  // if (filters.color) filterQuery.color = filters.color.toLowerCase();
+  // if (filters.category) filterQuery.category = filters.category.toLowerCase();
+  // if (filters.maxPrice || filters.minPrice) {
+  //   filterQuery.salePrice = {};
+  //   if (filters.minPrice) filterQuery.salePrice.$gte = filters.minPrice;
+  //   if (filters.maxPrice) filterQuery.salePrice.$lte = filters.maxPrice;
+  // }
 
   const pipeline: any[] = [
     {
@@ -147,31 +148,29 @@ export async function ragSearch(userQuery: string) {
   try {
     // Run filter extraction and query embedding in parallelque
 
-    const [filters, queryVector] = await Promise.all([
-      extractFilters(userQuery),
+    const [queryVector] = await Promise.all([
+      // extractFilters(userQuery),
       embedQuery(userQuery),
     ]);
-    // const filters = await extractFilters(userQuery);
-
-    // const queryVector = await embedQuery(userQuery);
-
     // Vector search with filters
-    const products = await vectorSearch(queryVector, filters);
+    const products = await vectorSearch(queryVector);
+    // console.log(products);
 
     // Generate AI answer
     const answer = await generateAnswer(userQuery, products);
+    // console.log("AI answer:", answer);
 
     return {
       success: true,
       answer,
       products,
-      filters, // useful for debugging
+      // filters, // useful for debugging
     };
   } catch (error: any) {
-    console.error("RAG search failed:", error.message);
+    // console.error("RAG search failed:", error.message);
     return {
       success: false,
-      answer: "Sorry, I couldn't process your request. Please try again.",
+      answer: `Sorry, I couldn't process your request. Please try again.${error.message}`,
       products: [],
     };
   }

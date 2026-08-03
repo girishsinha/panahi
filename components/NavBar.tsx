@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Menu } from "lucide-react";
+import { NoiseBackground } from "./ui/noise-background";
 
 export function Navbar() {
   return (
@@ -87,8 +88,9 @@ export function Navbar() {
           </Link>
         </nav>
 
+        {/* <NoiseBackground /> */}
         {/* Search + CTA */}
-        <div className="hidden md:flex items-center gap-2">
+        {/* <div className="hidden md:flex items-center gap-2">
           <div className="relative hidden lg:block">
             <Input placeholder="Search" className="h-9 w-44 pl-8" />
             <svg
@@ -110,7 +112,7 @@ export function Navbar() {
           <Button className="px-8 font-bold shadow-[0px_-2px_0px_rgba(255,255,255,0.4)_inset] dark:bg-white dark:text-black">
             Get started
           </Button>
-        </div>
+        </div> */}
       </div>
     </header>
   );

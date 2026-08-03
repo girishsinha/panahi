@@ -22,13 +22,6 @@ import EditorialShowcase from "@/components/layout/home/editorial-showcase";
 import Footer from "@/components/layout/footer";
 
 export default function Home() {
-  const [products, setProducts] = useState([]);
-  useEffect(() => {
-    fetch("/api/allproduct")
-      .then((res) => res.json())
-      .then((data) => setProducts(data.products))
-      .catch((err) => console.error("Error fetching products:", err));
-  }, []);
   return (
     <main className="scroll-smooth ">
       {/* <Navbar /> */}

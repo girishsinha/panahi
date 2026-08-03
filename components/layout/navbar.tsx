@@ -9,6 +9,8 @@ import Link from "next/link";
 
 import { Menu, X, ShoppingBag } from "lucide-react";
 import { link } from "fs";
+import { NoiseBackground } from "../ui/noise-background";
+import NoiseBackgroundDemo from "../noise-background-demo";
 
 const navItems = [
   {
@@ -130,7 +132,7 @@ export default function Navbar() {
             {/* LOGO */}
             <Link href="/">
               <h1 className="text-3xl font-black tracking-[0.3em] text-white">
-                {/* OM FOOTWEARS */}
+                {/* OM Footwears */}
                 PANAHI
               </h1>
             </Link>
@@ -151,11 +153,12 @@ export default function Navbar() {
 
           {/* RIGHT DESKTOP */}
           <div className="hidden lg:flex items-center gap-4">
-            <input
+            <NoiseBackgroundDemo />
+            {/* <input
               type="text"
               placeholder="Search..."
               className="bg-white/10 backdrop-blur-xl border border-white/10 px-5 py-3 text-sm outline-none rounded-full w-56 text-white placeholder:text-zinc-400 focus:border-white/30 transition"
-            />
+            /> */}
 
             {/* CART */}
             <button

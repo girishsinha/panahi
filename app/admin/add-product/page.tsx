@@ -136,19 +136,45 @@ const page = () => {
     formData.append("stockBySize", JSON.stringify(productData.stockBySize));
     formData.append("tags", JSON.stringify(productData.tags));
     // console.log("FormData entries:", formData.getAll("gender"));
-
-    const response = await fetch("/api/addProduct", {
-      headers: {
-        // "Content-Type": "multipart/form-data", // Let the browser set this boundary for multipart data
-      },
-      method: "POST",
-      body: formData,
-    });
-    if (!response.ok) {
-      console.log("Failed to add product", response);
+    try {
+      const response = await fetch("/api/addProduct", {
+        headers: {
+          // "Content-Type": "multipart/form-data", // Let the browser set this boundary for multipart data
+        },
+        method: "POST",
+        body: formData,
+      });
+      if (!response.ok) {
+        throw new Error("failed to add product");
+      }
+      const result = await response.json();
+      alert(result);
+      setProductData({
+        name: "",
+        art: "",
+        brand: "",
+        type: "",
+        gender: "unisex",
+        category: "",
+        color: "",
+        costPrice: 0,
+        mrp: 0,
+        salePrice: 0,
+        image: null,
+        description: "",
+        isAvailable: true,
+        stockBySize: [
+          { size: 6, quantity: 1 },
+          { size: 7, quantity: 1 },
+          { size: 8, quantity: 1 },
+          { size: 9, quantity: 1 },
+        ],
+        tags: [],
+      });
+      setPreview(null);
+    } catch (error) {
+      console.log("error while adding product", error);
     }
-    const result = await response.json();
-    console.log("Server response:", result);
   };
 
   const [preview, setPreview] = useState<string | null>(null);

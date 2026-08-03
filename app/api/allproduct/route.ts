@@ -7,6 +7,7 @@ export async function GET(req: Request) {
     dbConnect();
     let products;
     const gender = query.get("gender");
+    const type = query.get("type");
     const category = query.get("category");
     const color = query.get("color");
     const priceMin = query.get("priceMin");
@@ -22,6 +23,11 @@ export async function GET(req: Request) {
       } else {
         filter.gender = gender;
       }
+    }
+
+    // Type filter
+    if (type) {
+      filter.type = type;
     }
 
     // Category filter

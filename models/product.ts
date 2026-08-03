@@ -22,6 +22,7 @@ export interface Product extends Document {
   description: string;
   tags?: string[];
   isAvailable: boolean;
+  embedding: [Number];
   createdAt: Date;
   updatedAt: Date;
 }
@@ -46,6 +47,7 @@ const ProductSchema: Schema = new Schema(
     stockBySize: { type: [stockBySizeSchema], required: true },
     tags: { type: [String], required: false },
     isAvailable: { type: Boolean, default: true },
+    embedding: { type: Array, required: true },
     imageUrl: { type: String, required: true },
     description: { type: String, required: true },
   },

@@ -9,7 +9,7 @@ type Filters = {
   type?: string;
 };
 const types = ["chappal", "sandals", "sliders", "shoes"];
-const categories = ["office chappal", "party", "sports", "casual", "sneakers"];
+const categories = ["office chappal", "party", "sports", "casual", "sneaker"];
 export default function WomenCollectionPage() {
   const [filters, setFilters] = useState<Filters>({ category: "", type: "" });
   return (
@@ -42,7 +42,9 @@ export default function WomenCollectionPage() {
                 key={i}
                 value={type}
                 aria-label={`Toggle ${type}`}
-                onClick={() => setFilters({ ...filters, type: type })}
+                onClick={() =>
+                  setFilters({ ...filters, category: "", type: type })
+                }
               >
                 {type}
               </ToggleGroupItem>

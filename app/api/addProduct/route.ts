@@ -1,9 +1,10 @@
+import { generateProductEmbedding } from "@/lib/aiLibrary/embeddingService";
 import { uploadOnCloudinary } from "@/lib/cloudinary";
 import dbConnect from "@/lib/dbConnect";
 import { saveImage } from "@/lib/imageHandlar";
 import ProductModel from "@/models/product";
 // types forProduct.ts
-export interface StockBySize {
+interface StockBySize {
   size: number;
   quantity: number;
 }
@@ -24,6 +25,7 @@ export interface ProductInput {
   description: string;
   tags?: string[];
   isAvailable?: boolean;
+  embedding?: [Number];
 }
 
 export async function POST(req: Request) {
@@ -57,8 +59,8 @@ export async function POST(req: Request) {
       ? typeof rawStock === "string"
         ? JSON.parse(rawStock)
         : Array.isArray(rawStock)
-        ? rawStock
-        : []
+          ? rawStock
+          : []
       : [];
 
     let imageUrl = "";
@@ -111,7 +113,16 @@ export async function POST(req: Request) {
         return [];
       })(),
     };
-    const addedProduct = await ProductModel.create(newProductData);
+    const embedding = await generateProductEmbedding(newProductData);
+    const payload = { ...newProductData, embedding: embedding };
+    // console.log(payload);
+    const addedProduct = await ProductModel.create(payload);
+
+    const saved = await ProductModel.findById(addedProduct._id)
+      .select("embedding")
+      .lean();
+
+    console.log("Embedding saved length:", saved?.embedding?.length);
     if (!addedProduct) {
       return Response.json(
         { error: "Product creation failed" },
