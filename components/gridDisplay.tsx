@@ -33,6 +33,7 @@ export default function GridDisplay({
       .then((res) => res.json())
       .then((data) => {
         setProducts(data.products);
+        console.log("Fetched products:", data.products);
         setLoading(false);
       })
       .catch((err) => {
@@ -54,7 +55,10 @@ export default function GridDisplay({
           >
             <div className="relative inset-0 z-30 " />
             <img
-              src={product.imageUrl}
+              src={product.imageUrl.replace(
+                "/upload/",
+                "/upload/f_auto,q_auto/",
+              )}
               alt="Event cover"
               className="z-20 aspect-square h-full  w-full object-cover"
             />

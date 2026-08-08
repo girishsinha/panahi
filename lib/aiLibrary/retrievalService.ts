@@ -154,7 +154,7 @@ export async function ragSearch(userQuery: string) {
     ]);
     // Vector search with filters
     const products = await vectorSearch(queryVector);
-    // console.log(products);
+    console.log(products);
 
     // Generate AI answer
     const answer = await generateAnswer(userQuery, products);
