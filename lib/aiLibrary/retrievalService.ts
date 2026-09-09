@@ -2,7 +2,7 @@ import OpenAI from "openai";
 
 const client = new OpenAI({
   apiKey: process.env.GEMINI_API_KEY,
-  baseURL: "https://generativelanguage.googleapis.com/v1beta/openai/",
+  baseURL: process.env.BASE_URL,
 });
 
 // ─────────────────────────────────────────
@@ -158,7 +158,6 @@ export async function ragSearch(userQuery: string) {
 
     // Generate AI answer
     const answer = await generateAnswer(userQuery, products);
-    // console.log("AI answer:", answer);
 
     return {
       success: true,
