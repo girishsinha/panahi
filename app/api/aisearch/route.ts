@@ -1,4 +1,5 @@
-import { ragSearch } from "@/lib/aiLibrary/retrievalService";
+// import { ragSearch } from "@/lib/aiLibrary/retrievalService";
+import { ragSearch } from "@/lib/aiLibrary/retrievalService"; //this returns the answer from the vector database
 import { error } from "console";
 
 export async function POST(req: Request) {

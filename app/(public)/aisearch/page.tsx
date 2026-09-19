@@ -2,6 +2,7 @@
 
 import React, { useState, useRef, useEffect, memo } from "react";
 import Image from "next/image";
+import Markdown from "react-markdown";
 import {
   Item,
   ItemContent,
@@ -118,7 +119,7 @@ const Page = () => {
     setIsLoading(true);
 
     try {
-      const res = await fetch("/api/aisearch", {
+      const res = await fetch("/api/testingAgent", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ query: userMessage }),
@@ -136,7 +137,7 @@ const Page = () => {
           ...prev,
           {
             role: "assistant",
-            content: data.answer.content,
+            content: data.answer,
             products: data.products,
           },
         ]);
@@ -211,10 +212,13 @@ const Page = () => {
                               )}
                             </MessageContent>
                           </Message>
-                          {message.role === "assistant" && message.content}
+
+                          {message.role === "assistant" && (
+                            <Markdown>{message.content}</Markdown>
+                          )}
 
                           {message.products && (
-                            <ItemGroup className="w-full max-w-md gap-3">
+                            <ItemGroup className="w-full max-w-md gap-3 pt-2">
                               {message.products.map((product) => (
                                 <ProductCard
                                   key={product._id}
