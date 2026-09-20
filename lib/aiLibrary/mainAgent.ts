@@ -72,6 +72,6 @@ export const AgentResult = async (query: string) => {
   });
   const runner = new Runner({ modelProvider });
   const result = await runner.run(agent, query);
-  console.log(result.finalOutput);
+  // console.log(result.finalOutput);
   return { answer: result.finalOutput, products: capturedProducts };
 };

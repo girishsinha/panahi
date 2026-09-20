@@ -44,6 +44,7 @@ import {
   EmptyTitle,
 } from "@/components/ui/empty";
 import { ArrowUpIcon, MessageCircleDashedIcon } from "lucide-react";
+import { Spinner } from "@/components/ui/spinner";
 
 interface Product {
   _id: string;
@@ -107,7 +108,7 @@ const Page = () => {
   const [isLoading, setIsLoading] = useState(false);
   const bottomRef = useRef<HTMLDivElement>(null);
 
-  console.log("messages", messages);
+  // console.log("messages", messages);
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!prompt.trim() || isLoading) return;
@@ -142,13 +143,6 @@ const Page = () => {
           },
         ]);
       }
-
-      // if (data.products?.length > 0) {
-      //   setMessages((prev) => [
-      //     ...prev,
-      //     { role: "products", content: "", products: data.products },
-      //   ]);
-      // }
     } catch (error: any) {
       setMessages((prev) => [
         ...prev,
@@ -229,6 +223,18 @@ const Page = () => {
                           )}
                         </MessageScrollerItem>
                       ))}
+                      {isLoading && (
+                        <MessageScrollerItem key="loading" messageId="loading">
+                          <Message>
+                            <MessageContent>
+                              <span className="text-muted-foreground flex items-center gap-2">
+                                <Spinner />
+                                Thinking...
+                              </span>
+                            </MessageContent>
+                          </Message>
+                        </MessageScrollerItem>
+                      )}
                     </MessageScrollerContent>
                   </MessageScrollerViewport>
                   <MessageScrollerButton />

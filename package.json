@@ -14,7 +14,7 @@
     "class-variance-authority": "^0.7.1",
     "cloudinary": "^2.8.0",
     "clsx": "^2.1.1",
-    "cn": "^0.2.5",
+    "cn": "^0.2.6",
     "lucide-react": "^1.7.0",
     "mongoose": "^8.19.2",
     "mongoose-aggregate-paginate-v2": "^1.1.4",
