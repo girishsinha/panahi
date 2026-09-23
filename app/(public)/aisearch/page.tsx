@@ -45,6 +45,7 @@ import {
 } from "@/components/ui/empty";
 import { ArrowUpIcon, MessageCircleDashedIcon } from "lucide-react";
 import { Spinner } from "@/components/ui/spinner";
+import AiSidenav from "@/components/layout/home/ai-sidenav";
 
 interface Product {
   _id: string;
@@ -161,118 +162,115 @@ const Page = () => {
   };
 
   return (
-    <main className="  z-10 sm:px-6 lg:px-10">
+    <main className="  z-10  ">
+      {/* <div> hello sidenav</div> */}
       <MessageScrollerProvider>
-        <div className="relative flex flex-col gap-4">
-          <Card className="mx-auto h-screen w-full max-w-4xl gap-0 sm:rounded-none">
-            <CardContent className="flex-1 overflow-hidden p-0">
-              {messages.length === 0 ? (
-                <Empty className="h-full">
-                  <EmptyHeader>
-                    <EmptyMedia variant="icon">
-                      <MessageCircleDashedIcon />
-                    </EmptyMedia>
-                    <EmptyTitle>Welcome, To store</EmptyTitle>
-                    <EmptyDescription>
-                      Are you looking for anything specific?
-                    </EmptyDescription>
-                  </EmptyHeader>
-                </Empty>
-              ) : (
-                <MessageScroller className="p-4 flex items-center ">
-                  <MessageScrollerViewport className="p-4">
-                    <MessageScrollerContent className="p-(--card-spacing) ">
-                      {messages.map((message, i) => (
-                        <MessageScrollerItem
-                          key={i}
-                          messageId={"id" + i}
-                          scrollAnchor={message.role === "user"}
+        <Card className=" h-screen w-full gap-0 rounded-none">
+          <CardContent className="flex-1 overflow-hidden p-0">
+            {messages.length === 0 ? (
+              <Empty className="h-full">
+                <EmptyHeader>
+                  <EmptyMedia variant="icon">
+                    <MessageCircleDashedIcon />
+                  </EmptyMedia>
+                  <EmptyTitle>Welcome, To store</EmptyTitle>
+                  <EmptyDescription>
+                    Are you looking for anything specific?
+                  </EmptyDescription>
+                </EmptyHeader>
+              </Empty>
+            ) : (
+              <MessageScroller className="p-4 flex items-center ">
+                <MessageScrollerViewport className="p-4">
+                  <MessageScrollerContent className="p-(--card-spacing) ">
+                    {messages.map((message, i) => (
+                      <MessageScrollerItem
+                        key={i}
+                        messageId={"id" + i}
+                        scrollAnchor={message.role === "user"}
+                      >
+                        <Message
+                          align={message.role === "user" ? "end" : "start"}
                         >
-                          <Message
-                            align={message.role === "user" ? "end" : "start"}
-                          >
-                            <MessageContent>
-                              {" "}
-                              {message.role == "user" ? (
-                                <Bubble variant="secondary">
-                                  <BubbleContent>
-                                    {message.content}
-                                  </BubbleContent>
-                                </Bubble>
-                              ) : (
-                                <Bubble variant="ghost">
-                                  <BubbleContent></BubbleContent>
-                                </Bubble>
-                              )}
-                            </MessageContent>
-                          </Message>
+                          <MessageContent>
+                            {" "}
+                            {message.role == "user" ? (
+                              <Bubble variant="secondary">
+                                <BubbleContent>{message.content}</BubbleContent>
+                              </Bubble>
+                            ) : (
+                              <Bubble variant="ghost">
+                                <BubbleContent></BubbleContent>
+                              </Bubble>
+                            )}
+                          </MessageContent>
+                        </Message>
 
-                          {message.role === "assistant" && (
-                            <Markdown>{message.content}</Markdown>
-                          )}
+                        {message.role === "assistant" && (
+                          <Markdown>{message.content}</Markdown>
+                        )}
 
-                          {message.products && (
-                            <ItemGroup className="w-full max-w-md gap-3 pt-2">
-                              {message.products.map((product) => (
-                                <ProductCard
-                                  key={product._id}
-                                  product={product}
-                                />
-                              ))}
-                            </ItemGroup>
-                          )}
-                        </MessageScrollerItem>
-                      ))}
-                      {isLoading && (
-                        <MessageScrollerItem key="loading" messageId="loading">
-                          <Message>
-                            <MessageContent>
-                              <span className="text-muted-foreground flex items-center gap-2">
-                                <Spinner />
-                                Thinking...
-                              </span>
-                            </MessageContent>
-                          </Message>
-                        </MessageScrollerItem>
-                      )}
-                    </MessageScrollerContent>
-                  </MessageScrollerViewport>
-                  <MessageScrollerButton />
-                </MessageScroller>
-              )}
-            </CardContent>
-            <CardFooter className="flex-col gap-2 relative">
-              <form onSubmit={handleSubmit} className="w-full">
-                <InputGroup>
-                  <div className=" w-full px-3 py-2.5 sticky ">
-                    <span className="line-clamp-2 opacity-60 data-[status=ready]:opacity-100 ">
-                      <InputGroupTextarea
-                        value={prompt}
-                        onChange={(e) => setPrompt(e.target.value)}
-                        onKeyDown={handleKeyDown}
-                        disabled={isLoading}
-                        id="block-end-textarea"
-                        placeholder="What i can do for you..."
-                      />
-                    </span>
-                  </div>
-                  <InputGroupAddon align="block-end" className="pt-1">
-                    <InputGroupButton
-                      type="submit"
-                      variant="default"
-                      size="icon-sm"
+                        {message.products && (
+                          <ItemGroup className="w-full max-w-md gap-3 pt-2">
+                            {message.products.map((product) => (
+                              <ProductCard
+                                key={product._id}
+                                product={product}
+                              />
+                            ))}
+                          </ItemGroup>
+                        )}
+                      </MessageScrollerItem>
+                    ))}
+                    {isLoading && (
+                      <MessageScrollerItem key="loading" messageId="loading">
+                        <Message>
+                          <MessageContent>
+                            <span className="text-muted-foreground flex items-center gap-2">
+                              <Spinner />
+                              Thinking...
+                            </span>
+                          </MessageContent>
+                        </Message>
+                      </MessageScrollerItem>
+                    )}
+                  </MessageScrollerContent>
+                </MessageScrollerViewport>
+                <MessageScrollerButton />
+              </MessageScroller>
+            )}
+          </CardContent>
+          <CardFooter className="flex-col gap-2 relative">
+            <form onSubmit={handleSubmit} className="w-full">
+              <InputGroup>
+                <div className=" w-full px-3 py-2.5 sticky ">
+                  <span className="line-clamp-2 opacity-60 data-[status=ready]:opacity-100 ">
+                    <InputGroupTextarea
+                      value={prompt}
+                      onChange={(e) => setPrompt(e.target.value)}
+                      onKeyDown={handleKeyDown}
                       disabled={isLoading}
-                      className="ml-auto"
-                    >
-                      <ArrowUpIcon />
-                      <span className="sr-only">Send</span>
-                    </InputGroupButton>
-                  </InputGroupAddon>
-                </InputGroup>
-              </form>
-            </CardFooter>
-          </Card>
-        </div>
+                      id="block-end-textarea"
+                      placeholder="What i can do for you..."
+                    />
+                  </span>
+                </div>
+                <InputGroupAddon align="block-end" className="pt-1">
+                  <InputGroupButton
+                    type="submit"
+                    variant="default"
+                    size="icon-sm"
+                    disabled={isLoading}
+                    className="ml-auto"
+                  >
+                    <ArrowUpIcon />
+                    <span className="sr-only">Send</span>
+                  </InputGroupButton>
+                </InputGroupAddon>
+              </InputGroup>
+            </form>
+          </CardFooter>
+        </Card>
       </MessageScrollerProvider>
     </main>
   );

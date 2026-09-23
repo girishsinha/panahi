@@ -1,7 +1,14 @@
 "use client";
 
+import AiSidenav from "@/components/layout/home/ai-sidenav";
 import Navbar from "@/components/layout/navbar";
 import { usePathname, useRouter } from "next/navigation";
+import {
+  SidebarInset,
+  SidebarProvider,
+  SidebarTrigger,
+} from "@/components/ui/sidebar";
+import { TooltipProvider } from "@/components/ui/tooltip";
 
 export default function PublicLayout({
   children,
@@ -14,18 +21,20 @@ export default function PublicLayout({
 
   return (
     <>
-      {isAiSearch ? (
-        <button
-          onClick={() => router.back()}
-          aria-label="Back"
-          className=" fixed z-50"
-        >
-          Back
-        </button>
-      ) : (
-        <Navbar />
-      )}
-      {children}
+      <TooltipProvider delayDuration={0}>
+        <SidebarProvider>
+          {isAiSearch ? <AiSidenav /> : <Navbar />}
+          {/* <AiSidenav /> */}
+          <SidebarInset>
+            <header className="absolute z-20  h-14 w-14 flex items-center gap-2  px-4">
+              <SidebarTrigger />
+            </header>
+
+            {children}
+          </SidebarInset>
+          <div className=" relative w-(--sidebar-width) bg-transparent transition-[width] duration-200 ease-linear"></div>
+        </SidebarProvider>
+      </TooltipProvider>
     </>
   );
 }

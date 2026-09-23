@@ -190,7 +190,7 @@ const page = () => {
   }, [file]);
 
   return (
-    <main className="sm:p-8 pb-12 sm:w-4/5 w-full">
+    <main className="sm:p-8 pb-12  w-full">
       <form
         onSubmit={handaleAddProduct}
         className="grid sm:grid-cols-3 grid-cols-1  gap-4 p-4 "
