@@ -5,6 +5,7 @@ import Image from "next/image";
 import Markdown from "react-markdown";
 import {
   Item,
+  ItemActions,
   ItemContent,
   ItemDescription,
   ItemGroup,
@@ -43,10 +44,12 @@ import {
   EmptyMedia,
   EmptyTitle,
 } from "@/components/ui/empty";
-import { ArrowUpIcon, MessageCircleDashedIcon } from "lucide-react";
+import { ArrowUpIcon, Heart, MessageCircleDashedIcon } from "lucide-react";
 import { Spinner } from "@/components/ui/spinner";
 import AiSidenav from "@/components/layout/home/ai-sidenav";
-
+import { Button } from "@/components/ui/button";
+import { useDispatch, UseDispatch } from "react-redux";
+import { addToCart } from "@/app/features/cart.slice";
 interface Product {
   _id: string;
   name: string;
@@ -68,39 +71,54 @@ interface MSG {
 }
 
 // Memoized product card
-const ProductCard = memo(({ product }: { product: Product }) => (
-  <Item variant="outline">
-    <ItemMedia variant="image">
-      <img
-        src={product.imageUrl}
-        alt={product.name}
-        className="aspect-square h-24 w-24 rounded-sm object-cover"
-      />
-    </ItemMedia>
-    <ItemContent>
-      <ItemTitle className="line-clamp-1">
-        {product.name}
-        <span className="ml-2 text-muted-foreground font-normal">
-          {product.brand}
-        </span>
-      </ItemTitle>
-      <ItemDescription>{product.description.slice(0, 70)}... </ItemDescription>
-    </ItemContent>
-    <ItemContent className="flex-none text-right">
-      <ItemDescription className="flex flex-col gap-1">
-        ₹{product.salePrice.toFixed(2)}
-      </ItemDescription>
+const ProductCard = memo(
+  ({ product, handleDispatch }: { product: Product; handleDispatch: any }) => (
+    <Item variant="outline">
+      <ItemMedia variant="image">
+        <img
+          src={product.imageUrl}
+          alt={product.name}
+          className="aspect-square h-24 w-24 rounded-sm object-cover"
+        />
+      </ItemMedia>
+      <ItemContent>
+        <ItemTitle className="line-clamp-1">
+          {product.name}
+          <span className="ml-2 text-muted-foreground font-normal">
+            {product.brand}
+          </span>
+        </ItemTitle>
+        <ItemDescription>
+          {product.description.slice(0, 70)}...{" "}
+        </ItemDescription>
+      </ItemContent>
+      <ItemContent className="flex-none text-right">
+        <ItemDescription className="flex flex-col gap-1">
+          ₹{product.salePrice.toFixed(2)}
+        </ItemDescription>
 
-      <p className=" text-[0.6rem] line-clamp-2 text-left  leading-normal font-normal text-muted-foreground group-data-[size=[0.4rem]]/item:text-xs ">
-        <span className="text-red-500 font-stretch-ultra-condensed">
-          {(((product.mrp - product.salePrice) / product.mrp) * 100).toFixed(1)}
-          % OFF
-        </span>
-        <span className="line-through"> ₹{product.mrp}</span>
-      </p>
-    </ItemContent>
-  </Item>
-));
+        <p className=" text-[0.6rem] line-clamp-2 text-left  leading-normal font-normal text-muted-foreground group-data-[size=[0.4rem]]/item:text-xs ">
+          <span className="text-red-500 font-stretch-ultra-condensed">
+            {(((product.mrp - product.salePrice) / product.mrp) * 100).toFixed(
+              1,
+            )}
+            % OFF
+          </span>
+          <span className="line-through"> ₹{product.mrp}</span>
+        </p>
+      </ItemContent>
+      <ItemActions>
+        <Button
+          variant="outline"
+          size="lg"
+          onClick={() => handleDispatch(product)}
+        >
+          <Heart />
+        </Button>
+      </ItemActions>
+    </Item>
+  ),
+);
 ProductCard.displayName = "ProductCard";
 
 const Page = () => {
@@ -108,7 +126,10 @@ const Page = () => {
   const [messages, setMessages] = useState<MSG[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const bottomRef = useRef<HTMLDivElement>(null);
-
+  const dispatch = useDispatch();
+  const handleDispatch = (product: any) => {
+    dispatch(addToCart(product));
+  };
   // console.log("messages", messages);
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -216,6 +237,7 @@ const Page = () => {
                               <ProductCard
                                 key={product._id}
                                 product={product}
+                                handleDispatch={handleDispatch}
                               />
                             ))}
                           </ItemGroup>

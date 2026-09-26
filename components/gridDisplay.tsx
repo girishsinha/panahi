@@ -1,6 +1,8 @@
 "use client";
 import react, { useEffect, useState } from "react";
 import type { Product } from "@/models/product";
+import { useDispatch } from "react-redux";
+import { addToCart } from "@/app/features/cart.slice";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -13,6 +15,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { Heart } from "lucide-react";
 
 export default function GridDisplay({
   category,
@@ -25,6 +28,8 @@ export default function GridDisplay({
 }) {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(false);
+
+  const dispatch = useDispatch();
   useEffect(() => {
     setLoading(true);
     fetch(
@@ -62,9 +67,14 @@ export default function GridDisplay({
               alt="Event cover"
               className="z-20 aspect-square h-full  w-full object-cover"
             />
-            <Badge className="absolute top-4 right-2 z-30" variant="secondary">
-              Featured
-            </Badge>
+            <CardAction>
+              <button
+                onClick={() => dispatch(addToCart(product))}
+                className="absolute top-4 right-2 z-30 cursor-pointer"
+              >
+                <Heart className="text-secondary" />
+              </button>
+            </CardAction>
 
             <CardTitle className="flex  gap-2">
               <span className="font-bold">{product.brand + " "}</span>

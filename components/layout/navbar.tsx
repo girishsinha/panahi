@@ -11,6 +11,8 @@ import { Menu, X, ShoppingBag } from "lucide-react";
 import { link } from "fs";
 import { NoiseBackground } from "../ui/noise-background";
 import NoiseBackgroundDemo from "../noise-background-demo";
+import { Cart } from "./home/cart";
+import { useSelector } from "react-redux";
 
 const navItems = [
   {
@@ -34,7 +36,6 @@ const navItems = [
 export default function Navbar() {
   function ProfileDropdown({ name }: { name: string }) {
     const [open, setOpen] = useState(false);
-
     return (
       <div className="relative hidden lg:block">
         <button
@@ -116,6 +117,7 @@ export default function Navbar() {
 
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+  const { cartLength } = useSelector((state: any) => state.cart);
 
   return (
     <header
@@ -165,10 +167,12 @@ export default function Navbar() {
               // onClick={() => setCartOpen(true)}
               className="relative hover:scale-110 transition duration-300"
             >
-              <ShoppingBag size={24} color="white" />
-
+              <Cart>
+                <ShoppingBag size={24} color="white" />
+              </Cart>
               <span className="absolute -top-2 -right-2 bg-white text-black text-[10px] w-5 h-5 rounded-full flex items-center justify-center font-bold">
                 {/* {mounted ? cart.length : 0} */}
+                {cartLength}
               </span>
             </button>
 
@@ -192,10 +196,13 @@ export default function Navbar() {
               // onClick={() => setCartOpen(true)}
               className="relative"
             >
-              <ShoppingBag size={26} color="white" />
+              <Cart>
+                <ShoppingBag size={24} color="white" />
+              </Cart>
 
               <span className="absolute -top-2 -right-2 bg-white text-black text-[10px] rounded-full w-5 h-5 flex items-center justify-center font-bold">
                 {/* {mounted ? cart.length : 0} */}
+                {cartLength}
               </span>
             </button>
 

@@ -19,22 +19,23 @@ export default function PublicLayout({
   const router = useRouter();
   const isAiSearch = pathname.includes("aisearch");
 
-  return (
-    <>
-      <TooltipProvider delayDuration={0}>
-        <SidebarProvider>
-          {isAiSearch ? <AiSidenav /> : <Navbar />}
-          {/* <AiSidenav /> */}
-          <SidebarInset>
-            <header className="absolute z-20  h-14 w-14 flex items-center gap-2  px-4">
-              <SidebarTrigger />
-            </header>
+  return isAiSearch ? (
+    <TooltipProvider delayDuration={0}>
+      <SidebarProvider>
+        <AiSidenav />
+        <SidebarInset>
+          <header className="absolute z-20  h-14 w-14 flex items-center gap-2  px-4">
+            <SidebarTrigger />
+          </header>
 
-            {children}
-          </SidebarInset>
-          <div className=" relative w-(--sidebar-width) bg-transparent transition-[width] duration-200 ease-linear"></div>
-        </SidebarProvider>
-      </TooltipProvider>
+          {children}
+        </SidebarInset>
+        <div className=" relative w-(--sidebar-width) bg-transparent transition-[width] duration-200 ease-linear"></div>
+      </SidebarProvider>
+    </TooltipProvider>
+  ) : (
+    <>
+      <Navbar /> {children}
     </>
   );
 }

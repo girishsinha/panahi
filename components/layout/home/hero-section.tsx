@@ -77,7 +77,7 @@ export default function HeroSection() {
             key={shoes[current].image}
             src={shoes[current].image}
             alt="Premium Shoe"
-            className="relative z-10 w-[88%] md:w-full max-w-xl object-contain rotate-[-10deg] md:rotate-[-12deg] mx-auto transition-all duration-700"
+            className="relative z-10 w-[88%] md:w-full max-w-xl object-contain rotate-[-10deg] md:rotate-12 mx-auto transition-all duration-700"
           />
 
           {/* FLOATING PRICE */}

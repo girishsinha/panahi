@@ -25,13 +25,13 @@ import {
   SidebarRail,
   useSidebar,
 } from "@/components/ui/sidebar";
+import { Cart } from "./cart";
 
 const navItems = [
   { title: "Home", href: "/", icon: Home },
-  { title: "Ai search", href: "/aisearch", icon: Brain },
+  { title: "AI Search", href: "/aisearch", icon: Brain },
   { title: "Men", href: "/mens-collection", icon: ChessKing },
   { title: "Women", href: "/womens-collection", icon: ChessQueen },
-  { title: "Cart", href: "/#", icon: ShoppingBag },
 ];
 
 export default function AiSidenav() {
@@ -75,6 +75,20 @@ export default function AiSidenav() {
             </SidebarGroupContent>
           </SidebarGroup>
         ))}
+        <SidebarGroup>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              <SidebarMenuItem>
+                <SidebarMenuButton>
+                  <Cart>
+                    <ShoppingBag size={24} />
+                    <span>Cart</span>
+                  </Cart>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
       </SidebarContent>
 
       {/* <SidebarFooter>
