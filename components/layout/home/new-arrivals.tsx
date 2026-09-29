@@ -29,7 +29,6 @@ export default function NewArrivals() {
       const data = await res.json();
 
       setProducts(data.products);
-      console.log(data);
     };
 
     fetchProducts();

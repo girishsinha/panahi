@@ -407,7 +407,6 @@ export default function EditorialShowcase() {
                 once: false,
               });
 
-              console.log(isInView);
               return (
                 <motion.div
                   ref={ref}
@@ -424,7 +423,7 @@ export default function EditorialShowcase() {
                     <img
                       src={item.image}
                       alt={item.title}
-                      className={`w-full h-[240px] object-cover rounded-[28px] transition-all duration-700 ${
+                      className={`w-full h-60 object-cover rounded-[28px] transition-all duration-700 ${
                         isInView ? "scale-[1.02]" : "scale-100"
                       }`}
                     />

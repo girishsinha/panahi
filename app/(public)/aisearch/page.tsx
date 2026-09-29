@@ -130,7 +130,7 @@ const Page = () => {
   const handleDispatch = (product: any) => {
     dispatch(addToCart(product));
   };
-  // console.log("messages", messages);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!prompt.trim() || isLoading) return;

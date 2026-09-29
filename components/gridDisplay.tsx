@@ -38,7 +38,7 @@ export default function GridDisplay({
       .then((res) => res.json())
       .then((data) => {
         setProducts(data.products);
-        console.log("Fetched products:", data.products);
+        // console.log("Fetched products:", data.products);
         setLoading(false);
       })
       .catch((err) => {
