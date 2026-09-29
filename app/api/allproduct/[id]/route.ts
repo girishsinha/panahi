@@ -11,7 +11,9 @@ export async function GET(
 
     const { id } = await ctx.params;
 
-    const products = await ProductModel.find({ _id: id });
+    const products = await ProductModel.find({ _id: id }).select(
+      "-embedding -costPrice",
+    );
     return Response.json(
       { success: true, products, message: "dynamic route" },
       { status: 200 },

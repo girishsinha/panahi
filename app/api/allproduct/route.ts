@@ -56,7 +56,7 @@ export async function GET(req: Request) {
       filter.stockBySize = { $elemMatch: { size: size } };
     }
 
-    products = await ProductModel.find(filter);
+    products = await ProductModel.find(filter).select("-embedding -costPrice");
     return Response.json(
       { success: true, products, message: "All product route working" },
       { status: 200 },
