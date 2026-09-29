@@ -8,11 +8,13 @@ interface CartState {
   cartItems: Product[];
 }
 
-const initialState: CartState = {
-  cartLength: 0,
-  totalValue: 0,
-  cartItems: [],
-};
+const initialState: CartState = localStorage.getItem("cart")
+  ? JSON.parse(localStorage.getItem("cart") || "")
+  : {
+      cartLength: 0,
+      totalValue: 0,
+      cartItems: [],
+    };
 
 export const cartSlice = createSlice({
   name: "cart",
@@ -26,6 +28,7 @@ export const cartSlice = createSlice({
           0,
         );
         state.cartLength = state.cartItems.length;
+        localStorage.setItem("cart", JSON.stringify(state));
       }
     },
     removeFromCart: (state, action) => {
@@ -37,11 +40,13 @@ export const cartSlice = createSlice({
         (x, y) => x + (y.salePrice || 0),
         0,
       );
+      localStorage.setItem("cart", JSON.stringify(state));
     },
     EmptyCart: (state) => {
       state.cartItems = [];
       state.cartLength = 0;
       state.totalValue = 0;
+      localStorage.setItem("cart", JSON.stringify(state));
     },
   },
 });

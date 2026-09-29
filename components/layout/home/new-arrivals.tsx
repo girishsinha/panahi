@@ -89,7 +89,7 @@ export default function NewArrivals() {
                   <img
                     src={product.imageUrl}
                     alt={product.art}
-                    className="w-full h-[320px] object-cover group-hover:scale-105 transition duration-700"
+                    className="w-full h-80 object-cover group-hover:scale-105 transition duration-700"
                   />
 
                   {/* OVERLAY */}
