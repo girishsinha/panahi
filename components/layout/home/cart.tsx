@@ -44,7 +44,7 @@ export function Cart({ children }: { children?: React.ReactNode }) {
   const [open, setOpen] = React.useState(false);
 
   const isMobile = useIsMobile();
-  console.log(isMobile);
+  // console.log(isMobile);
   const { cartItems, totalValue, cartLength } = useSelector(
     (state: any) => state.cart,
   );

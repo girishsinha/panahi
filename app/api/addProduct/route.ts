@@ -138,7 +138,7 @@ export async function POST(req: Request) {
       { status: 201 },
     );
   } catch (err) {
-    console.log(err);
+    // console.log(err);
     return Response.json(
       { error: "server error", details: String(err) },
       { status: 500 },
