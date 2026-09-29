@@ -8,14 +8,31 @@ interface CartState {
   cartItems: Product[];
 }
 
-const initialState: CartState = localStorage.getItem("cart")
-  ? JSON.parse(localStorage.getItem("cart") || "")
-  : {
-      cartLength: 0,
-      totalValue: 0,
-      cartItems: [],
-    };
-
+const loadInitialState = (): CartState => {
+  if (typeof window !== "undefined") {
+    const savedCart = localStorage.getItem("cart");
+    if (savedCart) {
+      try {
+        return JSON.parse(savedCart);
+      } catch (error) {
+        console.error("Failed to parse cart from localStorage", error);
+      }
+    }
+  }
+  return {
+    cartLength: 0,
+    totalValue: 0,
+    cartItems: [],
+  };
+};
+// const initialState: CartState = localStorage.getItem("cart")
+//   ? JSON.parse(localStorage.getItem("cart") || "")
+//   : {
+//       cartLength: 0,
+//       totalValue: 0,
+//       cartItems: [],
+//     };
+const initialState: CartState = loadInitialState();
 export const cartSlice = createSlice({
   name: "cart",
   initialState,
